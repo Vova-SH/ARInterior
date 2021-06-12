@@ -8,7 +8,6 @@ public static class GameObjectExtension
 {
     public static void AddClickListener(this GameObject gameObject, UnityEvent<GameObject> callback)
     {
-
         EventTrigger trigger = gameObject.GetComponent<EventTrigger>();
         if (trigger == null) trigger = gameObject.AddComponent<EventTrigger>();
         EventTrigger.Entry entry = new EventTrigger.Entry();

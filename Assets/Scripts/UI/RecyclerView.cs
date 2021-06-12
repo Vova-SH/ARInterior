@@ -41,7 +41,7 @@ namespace UI
     /// List of elements, it use pooling to display items in the screen. So it's going to keep a small list instead of the full elements list.
     /// </summary>
     /// <typeparam name="T">T must be an extension of ViewHolder from RecyclerView.</typeparam>
-    public abstract class RecyclerView<T> : MonoBehaviour, RecyclerView<T>.IAdapter
+    public abstract class RecyclerView<T> : View, RecyclerView<T>.IAdapter
         where T : RecyclerView<T>.ViewHolder
     {
         private const bool DEBUG = false;

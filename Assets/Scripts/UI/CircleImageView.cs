@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CircleImageView : MonoBehaviour
+public class CircleImageView : View
 {
     [SerializeField]
     private Image m_Image;

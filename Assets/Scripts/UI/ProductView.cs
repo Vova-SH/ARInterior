@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-
-public class ProductView : MonoBehaviour
+public class ProductView : View
 {
     [SerializeField]
     private Image m_Image;

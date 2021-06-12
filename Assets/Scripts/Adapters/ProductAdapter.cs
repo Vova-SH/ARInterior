@@ -7,7 +7,7 @@ public class ProductAdapter : UI.RecyclerView<ProductAdapter.Holder>.Adapter
     [SerializeField]
     private ProductView m_Prefab;
 
-    public UnityEvent<GameObject> onClick;
+    public UnityEvent<GameObject, ProductModel, int> onClick;
 
     private List<ProductModel> m_Data = new List<ProductModel>();
 
@@ -29,7 +29,7 @@ public class ProductAdapter : UI.RecyclerView<ProductAdapter.Holder>.Adapter
 
     public override void OnBindViewHolder(Holder holder, int pos)
     {
-        holder.Bind(m_Data[pos % m_Data.Count], onClick);
+        holder.Bind(m_Data[pos % m_Data.Count], pos, onClick);
     }
 
     public override GameObject OnCreateViewHolder()
@@ -39,18 +39,20 @@ public class ProductAdapter : UI.RecyclerView<ProductAdapter.Holder>.Adapter
 
     public class Holder : ViewHolder
     {
-        private readonly ProductView m_Product;
+        private readonly ProductView m_View;
 
         public Holder(GameObject itemView) : base(itemView)
         {
-            m_Product = itemView.GetComponent<ProductView>();
+            m_View = itemView.GetComponent<ProductView>();
         }
 
-        public void Bind(ProductModel model, UnityEvent<GameObject> onClick)
+        public void Bind(ProductModel model, int position, UnityEvent<GameObject, ProductModel, int> onClick)
         {
-            m_Product.Bind(model);
-            itemView.RemoveAllClickListener();
-            itemView.AddClickListener(onClick);
+            m_View.Bind(model);
+
+            var callback = new UnityEvent<GameObject>();
+            callback.AddListener((obj) => onClick.Invoke(obj, model, position));
+            m_View.OnClick = callback;
         }
     }
 }
