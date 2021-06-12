@@ -1006,7 +1006,7 @@ namespace UI
 
         public abstract class ViewHolder : IViewHolderInfo
         {
-            GameObject itemView;
+            internal GameObject itemView;
             RectTransform rectTransform;
             int last_index, current_index;
             Status status;

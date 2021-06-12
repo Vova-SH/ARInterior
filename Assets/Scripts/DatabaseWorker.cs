@@ -17,6 +17,7 @@ public class DatabaseWorker : MonoBehaviour
             new System.Converter<ProductsDatabase.Item, ProductModel>(ItemToProductModel)
         );
         m_ProductAdapter.Data = productsData;
+        m_ProductAdapter.onClick.AddListener((obj) => { Debug.Log(obj.name); });
     }
 
     public static ProductModel ItemToProductModel(ProductsDatabase.Item item)

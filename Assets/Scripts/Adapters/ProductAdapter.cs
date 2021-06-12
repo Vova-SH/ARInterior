@@ -1,10 +1,13 @@
 using UnityEngine;
+using UnityEngine.Events;
 using System.Collections.Generic;
 
-public class ProductAdapter : UI.RecyclerView<ProductAdapter.Holder>.Adapter {
-
+public class ProductAdapter : UI.RecyclerView<ProductAdapter.Holder>.Adapter
+{
     [SerializeField]
     private ProductView m_Prefab;
+
+    public UnityEvent<GameObject> onClick;
 
     private List<ProductModel> m_Data = new List<ProductModel>();
 
@@ -26,7 +29,7 @@ public class ProductAdapter : UI.RecyclerView<ProductAdapter.Holder>.Adapter {
 
     public override void OnBindViewHolder(Holder holder, int pos)
     {
-        holder.Bind(m_Data[pos % m_Data.Count]);
+        holder.Bind(m_Data[pos % m_Data.Count], onClick);
     }
 
     public override GameObject OnCreateViewHolder()
@@ -43,9 +46,11 @@ public class ProductAdapter : UI.RecyclerView<ProductAdapter.Holder>.Adapter {
             m_Product = itemView.GetComponent<ProductView>();
         }
 
-        public void Bind(ProductModel model)
+        public void Bind(ProductModel model, UnityEvent<GameObject> onClick)
         {
             m_Product.Bind(model);
+            itemView.RemoveAllClickListener();
+            itemView.AddClickListener(onClick);
         }
     }
 }

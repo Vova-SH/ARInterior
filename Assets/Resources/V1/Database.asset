@@ -19,7 +19,10 @@ MonoBehaviour:
       m_Image: {fileID: 21300000, guid: 1572635e328d78e42a6f8aacf8ac83fd, type: 3}
       m_Prefab: {fileID: 919132149155446097, guid: a624e13cc18fd07448666ee565bd4c8f,
         type: 3}
-    colors: []
+    colors:
+    - {fileID: 11400000, guid: 3ddfd02261d9e944380884d05d496184, type: 2}
+    - {fileID: 11400000, guid: deb1ab20130935a4fb73cb4852e50406, type: 2}
+    - {fileID: 11400000, guid: a5cc056614b0d34428db363b79827f12, type: 2}
   - product:
       m_Name: "\u0422\u043E\u0440\u0448\u0435\u0440"
       m_Image: {fileID: 21300000, guid: 89453b944077991489b0df399aef6a00, type: 3}
@@ -49,7 +52,10 @@ MonoBehaviour:
       m_Image: {fileID: 21300000, guid: a1b1b71628ef31d42ae56a8fe28628a2, type: 3}
       m_Prefab: {fileID: 919132149155446097, guid: 0528283521b446149b838a43092422d2,
         type: 3}
-    colors: []
+    colors:
+    - {fileID: 11400000, guid: 03d5d6995bab30e45bcbd4f75828398a, type: 2}
+    - {fileID: 11400000, guid: deb1ab20130935a4fb73cb4852e50406, type: 2}
+    - {fileID: 11400000, guid: a5cc056614b0d34428db363b79827f12, type: 2}
   - product:
       m_Name: "\u0426\u0432\u0435\u0442\u044B"
       m_Image: {fileID: 21300000, guid: 6c2b6e97a83ad5546b1cbce0cb7ebab5, type: 3}
