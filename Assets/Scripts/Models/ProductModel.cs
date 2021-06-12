@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class ProductItem
+public class ProductModel
 {
     [SerializeField]
     internal string m_Name;

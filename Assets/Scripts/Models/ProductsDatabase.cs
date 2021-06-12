@@ -8,9 +8,9 @@ public class ProductsDatabase : ScriptableObject
     public struct Item
     {
         [SerializeField]
-        internal ProductItem m_Product;
+        public ProductModel product;
         [SerializeField]
-        internal List<ColorItem> m_Colors;
+        public List<ColorModel> colors;
     }
 
     [SerializeField]

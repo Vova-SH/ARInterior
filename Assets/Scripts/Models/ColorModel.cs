@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ColorProduct", menuName = "Products/Product color", order = 1001)]
-public class ColorItem : ScriptableObject
+public class ColorModel : ScriptableObject
 {
     [SerializeField]
     internal Sprite m_Image;
