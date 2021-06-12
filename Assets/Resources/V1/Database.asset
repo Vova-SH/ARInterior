@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f63e8b1a40958648892f5dca8811ebd, type: 3}
+  m_Name: Database
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_Floor:
+  - m_Product:
+      m_Name: "\u0413\u043B\u043E\u0431\u0443\u0441"
+      m_Image: {fileID: 21300000, guid: 1572635e328d78e42a6f8aacf8ac83fd, type: 3}
+      m_Prefab: {fileID: 919132149155446097, guid: a624e13cc18fd07448666ee565bd4c8f,
+        type: 3}
+    m_Colors:
+    - {fileID: 11400000, guid: 3ddfd02261d9e944380884d05d496184, type: 2}
+    - {fileID: 11400000, guid: deb1ab20130935a4fb73cb4852e50406, type: 2}
+    - {fileID: 11400000, guid: a5cc056614b0d34428db363b79827f12, type: 2}
+  - m_Product:
+      m_Name: "\u0422\u043E\u0440\u0448\u0435\u0440"
+      m_Image: {fileID: 21300000, guid: 89453b944077991489b0df399aef6a00, type: 3}
+      m_Prefab: {fileID: 919132149155446097, guid: 233c077498346b24d92a3ca0b26eacd0,
+        type: 3}
+    m_Colors: []
+  - m_Product:
+      m_Name: "\u0421\u0443\u043D\u0434\u0443\u043A"
+      m_Image: {fileID: 21300000, guid: 17e313e48642f3244bd11cdd1d52b874, type: 3}
+      m_Prefab: {fileID: 919132149155446097, guid: 0bd33de2261997142a4f27f36705a0fe,
+        type: 3}
+    m_Colors: []
+  - m_Product:
+      m_Name: "\u041F\u043E\u0440\u0442\u0444\u0435\u043B\u044C"
+      m_Image: {fileID: 21300000, guid: e6ac7d7926c29904386d1f491c272f1d, type: 3}
+      m_Prefab: {fileID: 919132149155446097, guid: 06537bf1c9430f54d8b6e580d4b536b1,
+        type: 3}
+    m_Colors: []
+  - m_Product:
+      m_Name: "\u0426\u0432\u0435\u0442\u043E\u043A"
+      m_Image: {fileID: 21300000, guid: 978d6c17a69fe874e8efcb084d86d8eb, type: 3}
+      m_Prefab: {fileID: 919132149155446097, guid: 181e800e733974b4c8cdc00179a6790d,
+        type: 3}
+    m_Colors: []
+  - m_Product:
+      m_Name: "\u041F\u043E\u0434\u0430\u0440\u043A\u0438"
+      m_Image: {fileID: 21300000, guid: a1b1b71628ef31d42ae56a8fe28628a2, type: 3}
+      m_Prefab: {fileID: 919132149155446097, guid: 0528283521b446149b838a43092422d2,
+        type: 3}
+    m_Colors: []
+  - m_Product:
+      m_Name: "\u0426\u0432\u0435\u0442\u043E\u043A"
+      m_Image: {fileID: 21300000, guid: 6c2b6e97a83ad5546b1cbce0cb7ebab5, type: 3}
+      m_Prefab: {fileID: 919132149155446097, guid: 5725163f5ee642a45ab38e81bf91dcbc,
+        type: 3}
+    m_Colors: []
+  m_Wall: []
+  m_Ceiling: []
