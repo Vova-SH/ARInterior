@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -455,7 +455,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &888415241
 Light:
   m_ObjectHideFlags: 0
@@ -546,6 +546,7 @@ GameObject:
   - component: {fileID: 976286342}
   - component: {fileID: 976286341}
   - component: {fileID: 976286340}
+  - component: {fileID: 976286344}
   m_Layer: 0
   m_Name: AR Session Origin
   m_TagString: Untagged
@@ -595,10 +596,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SnapToMesh: 1
   m_RaycastManager: {fileID: 976286342}
-  m_ReticlePrefab: {fileID: 3770400540450882647, guid: 18d9f71f171cb1e44b867c7cb29ebde8,
-    type: 3}
   m_DistanceScale: 1
-  m_CameraTransform: {fileID: 650402201}
 --- !u!114 &976286341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -623,7 +621,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa17d122634046b4a8e23048891fafc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RaycastPrefab: {fileID: 0}
+  m_RaycastPrefab: {fileID: 3770400540450882647, guid: 18d9f71f171cb1e44b867c7cb29ebde8,
+    type: 3}
 --- !u!114 &976286343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -639,6 +638,21 @@ MonoBehaviour:
   m_PlanePrefab: {fileID: 4776765576899091622, guid: 02fa9cd19451e6743b0d3a4a49a7e6ce,
     type: 3}
   m_DetectionMode: 2147483647
+--- !u!114 &976286344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 976286337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b80e36e1e2585ef41831b236472227b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reticle: {fileID: 976286340}
+  m_ProductAdapter: {fileID: 772484924}
+  m_ColorPickerAdapter: {fileID: 1579482379}
 --- !u!1 &1421860725
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,6 +769,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   database: {fileID: 11400000, guid: f79f879acf7ec3b448f99a1e6c9deebb, type: 2}
   m_ProductAdapter: {fileID: 772484924}
+  m_ColorPickerAdapter: {fileID: 1579482379}
 --- !u!1 &1579482377
 GameObject:
   m_ObjectHideFlags: 0
@@ -788,9 +803,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -52}
-  m_SizeDelta: {x: 70, y: -104}
-  m_Pivot: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -70, y: -104.00003}
+  m_SizeDelta: {x: 70, y: -104.000046}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &1579482379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -806,12 +821,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
-  decelerationRate: 0.5
+  decelerationRate: 0
   orientation: 0
-  Spacing: {x: 0, y: 16}
+  Spacing: {x: 15, y: 16}
   IsReverse: 0
-  PoolSize: 3
-  CacheSize: 3
+  PoolSize: 1
+  CacheSize: 1
   m_Prefab: {fileID: 7118839649771119928, guid: 52b592e5900d9f04ba29c07f7dc2bfef,
     type: 3}
   onClick:

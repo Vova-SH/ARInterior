@@ -18,10 +18,8 @@ public class DatabaseWorker : MonoBehaviour
 
     void Awake()
     {
-        m_CurrentList = database.m_Floor;
-        m_CurrentList.AddRange(m_CurrentList);
-        m_CurrentList.AddRange(m_CurrentList);
-        m_CurrentList.AddRange(m_CurrentList);
+        m_CurrentList = new List<ProductsDatabase.Item>();
+        m_CurrentList.AddRange(database.m_Floor);
         m_CurrentList.AddRange(m_CurrentList);
         m_CurrentList.AddRange(m_CurrentList);
 

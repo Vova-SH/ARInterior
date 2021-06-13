@@ -8,63 +8,53 @@ using UnityEngine.XR.ARSubsystems;
 public class PlacementReticle : MonoBehaviour
 {
     [SerializeField]
-    bool m_SnapToMesh;
+    private bool m_SnapToMesh;
 
-    public bool snapToMesh
+    public bool SnapToMesh
     {
         get => m_SnapToMesh;
         set => m_SnapToMesh = value;
     }
 
     [SerializeField]
-    ARRaycastManager m_RaycastManager;
+    private ARRaycastManager m_RaycastManager;
     
-    public ARRaycastManager raycastManager
+    public ARRaycastManager RaycastManager
     {
         get => m_RaycastManager;
         set => m_RaycastManager = value;
     }
 
-    [SerializeField]
-    GameObject m_ReticlePrefab;
-
-    public GameObject reticlePrefab
+    public GameObject ReticlePrefab
     {
-        get => m_ReticlePrefab;
-        set => m_ReticlePrefab = value;
+        get => m_RaycastManager.raycastPrefab;
     }
 
     [SerializeField]
-    bool m_DistanceScale;
+    private bool m_DistanceScale;
 
-    public bool distanceScale
+    public bool DistanceScale
     {
         get => m_DistanceScale;
         set => m_DistanceScale = value;
     }
 
-    [SerializeField]
-    Transform m_CameraTransform;
+    private Transform m_CameraTransform;
 
-    public Transform cameraTransform
-    {
-        get => m_CameraTransform;
-        set => m_CameraTransform = value;
-    }
-
-    GameObject m_SpawnedReticle;
-    CenterScreenHelper m_CenterScreen;
-    TrackableType m_RaycastMask;
-    float m_CurrentDistance;
-    float m_CurrentNormalizedDistance;
+    private GameObject m_SpawnedReticle;
+    private CenterScreenHelper m_CenterScreen;
+    private TrackableType m_RaycastMask;
+    private float m_CurrentDistance;
+    private float m_CurrentNormalizedDistance;
 
     static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
     const float k_MinScaleDistance = 0.0f;
     const float k_MaxScaleDistance = 1.0f;
     const float k_ScaleMod = 1.0f;
-    
+
     void Start()
     {
+        m_CameraTransform = RaycastManager.GetComponent<ARSessionOrigin>().camera.transform;
         m_CenterScreen = CenterScreenHelper.Instance;
         if (m_SnapToMesh)
         {
@@ -75,7 +65,7 @@ public class PlacementReticle : MonoBehaviour
             m_RaycastMask = TrackableType.PlaneWithinPolygon;
         }
 
-        m_SpawnedReticle = Instantiate(m_ReticlePrefab);
+        m_SpawnedReticle = Instantiate(ReticlePrefab);
         m_SpawnedReticle.SetActive(false);
     }
 
@@ -96,7 +86,7 @@ public class PlacementReticle : MonoBehaviour
         }
     }
 
-    public Transform GetReticlePosition()
+    public Transform GetReticleTransform()
     {
         return m_SpawnedReticle.transform;
     }
