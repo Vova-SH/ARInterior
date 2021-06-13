@@ -398,6 +398,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7db425a507e02141a7fb0ee3e091815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
   decelerationRate: 0.25
   orientation: 1
   Spacing: {x: 4, y: 0}
@@ -800,6 +803,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39fd6c7e08f0b104c9b28f26a350539c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
   decelerationRate: 0.5
   orientation: 0
   Spacing: {x: 0, y: 16}
@@ -808,3 +814,6 @@ MonoBehaviour:
   CacheSize: 3
   m_Prefab: {fileID: 7118839649771119928, guid: 52b592e5900d9f04ba29c07f7dc2bfef,
     type: 3}
+  onClick:
+    m_PersistentCalls:
+      m_Calls: []

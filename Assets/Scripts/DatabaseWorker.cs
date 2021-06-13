@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,17 +11,44 @@ public class DatabaseWorker : MonoBehaviour
     [Header("Adapters")]
     [SerializeField]
     private ProductAdapter m_ProductAdapter;
+    [SerializeField]
+    private ColorPickerAdapter m_ColorPickerAdapter;
 
-    void Start()
+    private List<ProductsDatabase.Item> m_CurrentList;
+
+    void Awake()
     {
-        var productsData = database.m_Floor.ConvertAll(
+        m_CurrentList = database.m_Floor;
+        m_CurrentList.AddRange(m_CurrentList);
+        m_CurrentList.AddRange(m_CurrentList);
+        m_CurrentList.AddRange(m_CurrentList);
+        m_CurrentList.AddRange(m_CurrentList);
+        m_CurrentList.AddRange(m_CurrentList);
+
+        var productsData = m_CurrentList.ConvertAll(
             new System.Converter<ProductsDatabase.Item, ProductModel>(ItemToProductModel)
         );
+
         m_ProductAdapter.Data = productsData;
-        m_ProductAdapter.onClick.AddListener((obj, model, pos) => { Debug.Log(pos + ": " + model.m_Name); });
+
+        m_ProductAdapter.onClick.AddListener(ChooseProduct);
+        m_ColorPickerAdapter.onClick.AddListener(ChooseColor);
     }
 
-    public static ProductModel ItemToProductModel(ProductsDatabase.Item item)
+    private void ChooseProduct(GameObject obj, ProductModel model, int pos)
+    {
+        var colorData = m_CurrentList[pos].colors;
+        m_ColorPickerAdapter.Data = colorData;
+        m_ProductAdapter.Selectable = pos;
+
+    }
+
+    private void ChooseColor(GameObject obj, ColorModel model, int pos)
+    {
+
+    }
+
+    private static ProductModel ItemToProductModel(ProductsDatabase.Item item)
     {
         return item.product;
     }

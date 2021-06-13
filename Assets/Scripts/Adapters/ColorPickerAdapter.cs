@@ -24,12 +24,12 @@ public class ColorPickerAdapter : UI.RecyclerView<ColorPickerAdapter.Holder>.Ada
 
     public override int GetItemCount()
     {
-        return m_Data.Count * 5;
+        return m_Data.Count;
     }
 
     public override void OnBindViewHolder(Holder holder, int pos)
     {
-        holder.Bind(m_Data[pos % m_Data.Count], pos, onClick);
+        holder.Bind(m_Data[pos], pos, onClick);
     }
 
     public override GameObject OnCreateViewHolder()

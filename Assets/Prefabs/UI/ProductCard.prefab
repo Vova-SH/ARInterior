@@ -105,8 +105,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26fe7db7b1998ec46b8f7b523e7a7e1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
   m_Image: {fileID: 447551343446900879}
   m_Text: {fileID: 447551343317820167}
+  m_SelectableColor: {r: 1, g: 1, b: 1, a: 0.49803922}
 --- !u!1 &447551343317820161
 GameObject:
   m_ObjectHideFlags: 0
