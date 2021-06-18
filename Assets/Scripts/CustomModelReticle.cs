@@ -43,9 +43,17 @@ public class CustomModelReticle : MonoBehaviour
         }
     }
 
-    private void ChooseProduct(GameObject obj, ProductModel model, int pos)
+    private void ChooseProduct(bool isOn, ProductModel model, int pos)
     {
-        CustomReticle = model.m_Prefab;
+        if (isOn)
+        {
+            CustomReticle = model.m_Prefab;
+        }
+        else
+        {
+            Destroy(m_CustomReticle);
+            m_CustomReticle = null;
+        }
     }
 
     private void ChooseColor(GameObject obj, ColorModel model, int pos)

@@ -11,6 +11,17 @@ public class ColorPickerAdapter : UI.RecyclerView<ColorPickerAdapter.Holder>.Ada
 
     private List<ColorModel> m_Data = new List<ColorModel>();
 
+    private int m_SelectablePosition = 0;
+
+    public int Selectable
+    {
+        set
+        {
+            m_SelectablePosition = value;
+            NotifyDataSetChanged();
+        }
+    }
+
     public List<ColorModel> Data
     {
         get => m_Data;
@@ -18,7 +29,8 @@ public class ColorPickerAdapter : UI.RecyclerView<ColorPickerAdapter.Holder>.Ada
         {
             m_Data.Clear();
             m_Data.AddRange(value);
-            NotifyDatasetChanged();
+            m_SelectablePosition = 0;
+            NotifyDataSetChanged();
         }
     }
 
@@ -29,7 +41,7 @@ public class ColorPickerAdapter : UI.RecyclerView<ColorPickerAdapter.Holder>.Ada
 
     public override void OnBindViewHolder(Holder holder, int pos)
     {
-        holder.Bind(m_Data[pos], pos, onClick);
+        holder.Bind(m_Data[pos], pos, pos == m_SelectablePosition, onClick);
     }
 
     public override GameObject OnCreateViewHolder()
@@ -46,13 +58,12 @@ public class ColorPickerAdapter : UI.RecyclerView<ColorPickerAdapter.Holder>.Ada
             m_View = itemView.GetComponent<CircleImageView>();
         }
 
-        public void Bind(ColorModel model, int position, UnityEvent<GameObject, ColorModel, int> onClick)
+        public void Bind(ColorModel model, int position, bool isSelectable, UnityEvent<GameObject, ColorModel, int> onClick)
         {
             m_View.Sprite = model.m_Image;
 
-            var callback = new UnityEvent<GameObject>();
-            callback.AddListener((obj) => onClick.Invoke(obj, model, position));
-            m_View.OnClick = callback;
+            m_View.isOn = isSelectable;
+            m_View.onValueChanged.AddListener((isOn) => onClick.Invoke(itemView, model, position));
         }
     }
 }

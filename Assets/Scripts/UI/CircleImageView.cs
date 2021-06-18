@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CircleImageView : View
+public class CircleImageView : Toggle
 {
     [SerializeField]
     private Image m_Image;

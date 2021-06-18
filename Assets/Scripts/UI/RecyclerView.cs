@@ -1,28 +1,8 @@
 /*
     MIT License
-
-    Copyright (c) 2019 Framg
-
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files (the "Software"), to deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    copies of the Software, and to permit persons to whom the Software is
-    furnished to do so, subject to the following conditions:
-
-    The above copyright notice and this permission notice shall be included in all
-    copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    SOFTWARE. 
+    Original script write Framg (https://github.com/framg/)
+    Edited and modificate Vova-SH (https://github.com/Vova-SH/)
 */
-
-
 
 using System;
 using System.Collections;
@@ -41,7 +21,7 @@ namespace UI
     /// List of elements, it use pooling to display items in the screen. So it's going to keep a small list instead of the full elements list.
     /// </summary>
     /// <typeparam name="T">T must be an extension of ViewHolder from RecyclerView.</typeparam>
-    public abstract class RecyclerView<T> : View, RecyclerView<T>.IAdapter
+    public abstract class RecyclerView<T> : MonoBehaviour, RecyclerView<T>.IAdapter
         where T : RecyclerView<T>.ViewHolder
     {
         private const bool DEBUG = false;
@@ -99,10 +79,24 @@ namespace UI
             /// <summary>
             /// 
             /// </summary>
-            public void NotifyDatasetChanged()
+            public void NotifyDataSetChanged()
             {
                 OnDataChange();
             }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public void NotifyItemChanged(int position)
+            {
+                IViewHolderInfo vh = TryGetViewHolderPosition(position);
+                if (vh != null)
+                {
+                    OnBindViewHolder((T)Convert.ChangeType(vh, typeof(T)), position);
+                }
+                //OnDataChange(position);
+            }
+
             /// <summary>
             /// Scroll to a certain position from [0, 
             /// </summary>
@@ -130,7 +124,7 @@ namespace UI
             }
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             layoutManager = new LayoutManager(this, orientation);
 
@@ -151,7 +145,31 @@ namespace UI
         }
 
 
-        private IViewHolderInfo TryGetViewHolderForPosition(int position)
+        private IViewHolderInfo TryGetViewHolderPosition(int position)
+        {
+            if (position >= 0 && position < GetItemCount())
+            {
+                for (int i = 0; i < AttachedScrap.Count; i++)
+                {
+                    if (AttachedScrap[i].CurrentIndex == position)
+                    {
+                        return AttachedScrap[i];
+                    }
+                }
+
+                for (int i = 0; i < Cache.Count; i++)
+                {
+                    if (Cache[i].CurrentIndex == position)
+                    {
+                        return Cache[i];
+                    }
+                }
+            }
+            return null;
+        }
+
+
+        private IViewHolderInfo TryGetViewHolderPositionScrap(int position)
         {
             if (position >= 0 && position < GetItemCount())
             {
@@ -219,7 +237,7 @@ namespace UI
 
             for (int i = firstPosition - 1; i < firstPosition + layoutManager.GetScreenListSize() + 1; i++)
             {
-                IViewHolderInfo vh = TryGetViewHolderForPosition(i);
+                IViewHolderInfo vh = TryGetViewHolderPositionScrap(i);
                 if (vh != null)
                 {
                     TmpScrap.Add(vh);
@@ -811,7 +829,7 @@ namespace UI
 
             public void ScrollTo(int position)
             {
-                recyclerView.StartCoroutine(INotifyDatasetChanged(position));
+                recyclerView.StartCoroutine(INotifyDataSetChanged(position));
 
             }
 
@@ -828,7 +846,7 @@ namespace UI
             }
 
 
-            private IEnumerator INotifyDatasetChanged(int pos = 0)
+            private IEnumerator INotifyDataSetChanged(int pos = 0)
             {
                 ScrollRect.inertia = false;
                 recyclerView.OnDataChange(pos);
@@ -1109,7 +1127,8 @@ namespace UI
         private interface IDataObservable
         {
 
-            void NotifyDatasetChanged();
+            void NotifyDataSetChanged();
+            void NotifyItemChanged(int position);
 
         }
 

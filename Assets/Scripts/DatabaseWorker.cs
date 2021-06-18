@@ -33,11 +33,17 @@ public class DatabaseWorker : MonoBehaviour
         m_ColorPickerAdapter.onClick.AddListener(ChooseColor);
     }
 
-    private void ChooseProduct(GameObject obj, ProductModel model, int pos)
+    private void ChooseProduct(bool isOn, ProductModel model, int pos)
     {
-        var colorData = m_CurrentList[pos].colors;
-        m_ColorPickerAdapter.Data = colorData;
-        m_ProductAdapter.Selectable = pos;
+        if (isOn)
+        {
+            var colorData = m_CurrentList[pos].colors;
+            m_ColorPickerAdapter.Data = colorData;
+        }
+        else
+        {
+            m_ColorPickerAdapter.Data.Clear();
+        }
 
     }
 

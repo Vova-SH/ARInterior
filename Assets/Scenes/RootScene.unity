@@ -398,9 +398,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7db425a507e02141a7fb0ee3e091815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
   decelerationRate: 0.25
   orientation: 1
   Spacing: {x: 4, y: 0}
@@ -426,11 +423,11 @@ RectTransform:
   m_Father: {fileID: 1421860729}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 104}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0, y: 0}
 --- !u!222 &772484926
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -803,8 +800,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -70, y: -104.00003}
-  m_SizeDelta: {x: 70, y: -104.000046}
+  m_AnchoredPosition: {x: -70, y: 0}
+  m_SizeDelta: {x: 70, y: -104}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1579482379
 MonoBehaviour:
@@ -818,9 +815,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39fd6c7e08f0b104c9b28f26a350539c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
   decelerationRate: 0
   orientation: 0
   Spacing: {x: 15, y: 16}
