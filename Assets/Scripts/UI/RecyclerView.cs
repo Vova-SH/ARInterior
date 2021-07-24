@@ -543,7 +543,7 @@ namespace UI
                     ScrollRect = recyclerView.gameObject.AddComponent<ScrollRect>();
                 }
                 ScrollRect.content = GridRectTransform;
-                ScrollRect.onValueChanged.AddListener(delegate(Vector2 pos) { Debug.Log(pos); OnScroll(); });
+                ScrollRect.onValueChanged.AddListener(delegate { OnScroll(); });
                 ScrollRect.viewport = SelfRectTransform;
                 ScrollRect.content = GridRectTransform;
                 ScrollRect.movementType = ScrollRect.MovementType.Unrestricted;
@@ -948,12 +948,11 @@ namespace UI
 
             public void ClampList()
             {
-                //TODO: fix with small items count
                 if (IsVerticalOrientation())
                 {
                     if (recyclerView.IsReverse)
                     {
-                        if (GridRectTransform.offsetMax.y >= 0)
+                        if (GridRectTransform.offsetMax.y >= 0 || LIMIT_BOTTOM <= GridRectTransform.rect.height)
                         {
                             GridRectTransform.localPosition = new Vector2(GridRectTransform.localPosition.x, 0);
                             GridRectTransform.offsetMax = new Vector2(GridRectTransform.offsetMax.x, 0);
@@ -968,7 +967,7 @@ namespace UI
                     }
                     else
                     {
-                        if (GridRectTransform.offsetMax.y <= 0)
+                        if (GridRectTransform.offsetMax.y <= 0 || LIMIT_BOTTOM <= GridRectTransform.rect.height)
                         {
                             GridRectTransform.offsetMax = new Vector2(GridRectTransform.offsetMax.x, 0);
                             GridRectTransform.sizeDelta = new Vector2(GridRectTransform.sizeDelta.x, 0);
@@ -986,7 +985,7 @@ namespace UI
 
                     if (recyclerView.IsReverse)
                     {
-                        if (GridRectTransform.offsetMax.x <= 0)
+                        if (GridRectTransform.offsetMax.x <= 0 || LIMIT_BOTTOM <= GridRectTransform.rect.width)
                         {
                             GridRectTransform.offsetMax = new Vector2(0, GridRectTransform.offsetMax.y);
                             GridRectTransform.sizeDelta = new Vector2(0, GridRectTransform.sizeDelta.y);
@@ -999,7 +998,7 @@ namespace UI
                     }
                     else
                     {
-                        if (GridRectTransform.offsetMax.x >= 0)
+                        if (GridRectTransform.offsetMax.x >= 0 || LIMIT_BOTTOM <= GridRectTransform.rect.width)
                         {
                             GridRectTransform.localPosition = new Vector2(0, GridRectTransform.localPosition.y);
                             GridRectTransform.offsetMax = new Vector2(0, GridRectTransform.offsetMax.y);
