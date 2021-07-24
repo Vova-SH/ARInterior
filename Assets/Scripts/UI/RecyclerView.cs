@@ -16,6 +16,7 @@ using System.IO;
 #endif
 namespace UI
 {
+    [DisallowMultipleComponent]
     /// <summary>
     /// Recycler view for Unity.
     /// List of elements, it use pooling to display items in the screen. So it's going to keep a small list instead of the full elements list.
@@ -332,16 +333,21 @@ namespace UI
             if (GetItemCount() > 0)
             {
                 IViewHolderInfo vh = (T)Activator.CreateInstance(typeof(T), new object[] { OnCreateViewHolder() });
+                vh.RectTransform.offsetMin = new Vector2(0f, 0f);
+                vh.RectTransform.offsetMax = new Vector2(0f, 0f);
+                vh.RectTransform.sizeDelta = new Vector2(0f, 0f);
+
                 vh.CurrentIndex = pos;
                 vh.LastIndex = pos;
                 vh.Status = ViewHolder.Status.SCRAP;
+
+                Vector3 size = vh.RectTransform.localScale;
                 AddToAttachedScrap(vh, true);
+                vh.RectTransform.localScale = size;
                 layoutManager.SetPositionViewHolder(vh);
                 OnBindViewHolder((T)Convert.ChangeType(vh, typeof(T)), pos);
 
-
-
-                layoutManager.OnDataChange(vh.ItemView, pos);
+                layoutManager.OnDataChange(vh.RectTransform, pos);
 
                 int ATTACHED_SCRAP_SIZE = layoutManager.GetScreenListSize() + 1;
 
@@ -497,36 +503,38 @@ namespace UI
                 {
                     if (recyclerView.IsReverse)
                     {
-                        GridRectTransform.anchorMax = new Vector2(0.5f, 0f);
-                        GridRectTransform.anchorMin = new Vector2(0.5f, 0f);
+                        GridRectTransform.anchorMax = new Vector2(1f, 0f);
+                        GridRectTransform.anchorMin = new Vector2(0f, 0f);
                         GridRectTransform.pivot = new Vector2(0.5f, 0f);
                     }
                     else
                     {
-                        GridRectTransform.anchorMax = new Vector2(0.5f, 1f);
-                        GridRectTransform.anchorMin = new Vector2(0.5f, 1f);
+                        GridRectTransform.anchorMax = new Vector2(1f, 1f);
+                        GridRectTransform.anchorMin = new Vector2(0f, 1f);
                         GridRectTransform.pivot = new Vector2(0.5f, 1f);
                     }
-
                 }
                 else
                 {
                     if (recyclerView.IsReverse)
                     {
-                        GridRectTransform.anchorMax = new Vector2(1f, 0.5f);
-                        GridRectTransform.anchorMin = new Vector2(1f, 0.5f);
+                        GridRectTransform.anchorMax = new Vector2(1f, 1f);
+                        GridRectTransform.anchorMin = new Vector2(1f, 0f);
                         GridRectTransform.pivot = new Vector2(1f, 0.5f);
                     }
                     else
                     {
-                        GridRectTransform.anchorMax = new Vector2(0f, 0.5f);
-                        GridRectTransform.anchorMin = new Vector2(0f, 0.5f);
+                        GridRectTransform.anchorMax = new Vector2(0f, 1f);
+                        GridRectTransform.anchorMin = new Vector2(0f, 0f);
                         GridRectTransform.pivot = new Vector2(0f, 0.5f);
                     }
                 }
 
                 Grid.transform.SetParent(recyclerView.transform);
+                GridRectTransform.localScale = Vector3.one;
                 GridRectTransform.anchoredPosition = Vector3.zero;
+                GridRectTransform.offsetMin = new Vector2(0f, 0f);
+                GridRectTransform.offsetMax = new Vector2(0f, 0f);
 
 
                 ScrollRect = recyclerView.GetComponent<ScrollRect>();
@@ -535,7 +543,7 @@ namespace UI
                     ScrollRect = recyclerView.gameObject.AddComponent<ScrollRect>();
                 }
                 ScrollRect.content = GridRectTransform;
-                ScrollRect.onValueChanged.AddListener(delegate { OnScroll(); });
+                ScrollRect.onValueChanged.AddListener(delegate(Vector2 pos) { Debug.Log(pos); OnScroll(); });
                 ScrollRect.viewport = SelfRectTransform;
                 ScrollRect.content = GridRectTransform;
                 ScrollRect.movementType = ScrollRect.MovementType.Unrestricted;
@@ -697,25 +705,24 @@ namespace UI
 
             private void OnScroll()
             {
-                if (!IsCreating)
+                if (IsCreating) return;
+                if (IsStateValid())
                 {
-                    if (IsStateValid())
-                    {
-                        recyclerView.UpdateScrap();
-                        ClampList();
-                    }
-                    else
-                    {
-                        Invalidate();
-                    }
-
+                    recyclerView.UpdateScrap();
+                    ClampList();
+                }
+                else
+                {
+                    Invalidate();
                 }
             }
 
-            public void OnDataChange(GameObject initialVH, int pos = 0)
+
+
+            public void OnDataChange(RectTransform initialRect, int pos = 0)
             {
-                RowDimension = new Vector2(initialVH.GetComponent<RectTransform>().rect.width, initialVH.GetComponent<RectTransform>().rect.height);
-                RowScale = initialVH.GetComponent<RectTransform>().localScale;
+                RowDimension = new Vector2(initialRect.rect.width, initialRect.rect.height);
+                RowScale = initialRect.localScale;
                 Vector2 RowSize = GetRowSize();
 
                 if (IsVerticalOrientation())
@@ -909,6 +916,11 @@ namespace UI
 
             private void SetPivot(RectTransform rect)
             {
+
+                rect.offsetMin = new Vector2(0f, 0f);
+                rect.offsetMax = new Vector2(0f, 0f);
+                rect.sizeDelta = new Vector2(0f, 0f);
+                rect.localScale = RowScale;
                 if (IsVerticalOrientation())
                 {
                     if (recyclerView.IsReverse)
@@ -936,11 +948,12 @@ namespace UI
 
             public void ClampList()
             {
+                //TODO: fix with small items count
                 if (IsVerticalOrientation())
                 {
                     if (recyclerView.IsReverse)
                     {
-                        if (GridRectTransform.offsetMax.y > 0)
+                        if (GridRectTransform.offsetMax.y >= 0)
                         {
                             GridRectTransform.localPosition = new Vector2(GridRectTransform.localPosition.x, 0);
                             GridRectTransform.offsetMax = new Vector2(GridRectTransform.offsetMax.x, 0);
@@ -955,7 +968,7 @@ namespace UI
                     }
                     else
                     {
-                        if (GridRectTransform.offsetMax.y < 0)
+                        if (GridRectTransform.offsetMax.y <= 0)
                         {
                             GridRectTransform.offsetMax = new Vector2(GridRectTransform.offsetMax.x, 0);
                             GridRectTransform.sizeDelta = new Vector2(GridRectTransform.sizeDelta.x, 0);
@@ -973,7 +986,7 @@ namespace UI
 
                     if (recyclerView.IsReverse)
                     {
-                        if (GridRectTransform.offsetMax.x < 0)
+                        if (GridRectTransform.offsetMax.x <= 0)
                         {
                             GridRectTransform.offsetMax = new Vector2(0, GridRectTransform.offsetMax.y);
                             GridRectTransform.sizeDelta = new Vector2(0, GridRectTransform.sizeDelta.y);
@@ -986,7 +999,7 @@ namespace UI
                     }
                     else
                     {
-                        if (GridRectTransform.offsetMax.x > 0)
+                        if (GridRectTransform.offsetMax.x >= 0)
                         {
                             GridRectTransform.localPosition = new Vector2(0, GridRectTransform.localPosition.y);
                             GridRectTransform.offsetMax = new Vector2(0, GridRectTransform.offsetMax.y);
