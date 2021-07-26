@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-#if (UNITY_EDITOR) 
+#if (UNITY_EDITOR)
 using UnityEditor;
 using System.IO;
 #endif
@@ -39,6 +39,11 @@ namespace UI
         [Header("List orientation")]
 #endif
         public Orientation orientation;
+
+#if (UNITY_EDITOR)
+        [ReadOnlyWhenPlaying]
+#endif
+        public bool isCentring;
 
 #if (UNITY_EDITOR)
         [ReadOnlyWhenPlaying]
@@ -344,10 +349,10 @@ namespace UI
                 Vector3 size = vh.RectTransform.localScale;
                 AddToAttachedScrap(vh, true);
                 vh.RectTransform.localScale = size;
+                layoutManager.OnDataChange(vh.RectTransform, pos);
+
                 layoutManager.SetPositionViewHolder(vh);
                 OnBindViewHolder((T)Convert.ChangeType(vh, typeof(T)), pos);
-
-                layoutManager.OnDataChange(vh.RectTransform, pos);
 
                 int ATTACHED_SCRAP_SIZE = layoutManager.GetScreenListSize() + 1;
 
@@ -622,10 +627,20 @@ namespace UI
                     if (recyclerView.IsReverse)
                     {
                         vh.RectTransform.localPosition = new Vector3(0, (vh.CurrentIndex * size.y), 0);
+
+                        if (recyclerView.isCentring && recyclerView.GetItemCount() * size.y < SelfRectTransform.rect.height)
+                        {
+                            vh.RectTransform.localPosition += new Vector3(0, (SelfRectTransform.rect.height - recyclerView.GetItemCount() * size.y + recyclerView.Spacing.y) / 2, 0);
+                        }
                     }
                     else
                     {
                         vh.RectTransform.localPosition = new Vector3(0, (-vh.CurrentIndex * size.y), 0);
+
+                        if (recyclerView.isCentring && recyclerView.GetItemCount() * size.y < SelfRectTransform.rect.height)
+                        {
+                            vh.RectTransform.localPosition -= new Vector3(0, (SelfRectTransform.rect.height - recyclerView.GetItemCount() * size.y + recyclerView.Spacing.y) / 2, 0);
+                        }
                     }
                 }
                 else
@@ -633,10 +648,20 @@ namespace UI
                     if (recyclerView.IsReverse)
                     {
                         vh.RectTransform.localPosition = new Vector3((-vh.CurrentIndex * size.x), 0, 0);
+
+                        if (recyclerView.isCentring && recyclerView.GetItemCount() * size.x < SelfRectTransform.rect.width)
+                        {
+                            vh.RectTransform.localPosition -= new Vector3((SelfRectTransform.rect.width - recyclerView.GetItemCount() * size.x + recyclerView.Spacing.x) / 2, 0, 0);
+                        }
                     }
                     else
                     {
                         vh.RectTransform.localPosition = new Vector3((vh.CurrentIndex * size.x), 0, 0);
+
+                        if (recyclerView.isCentring && recyclerView.GetItemCount() * size.x < SelfRectTransform.rect.width)
+                        {
+                            vh.RectTransform.localPosition += new Vector3((SelfRectTransform.rect.width - recyclerView.GetItemCount() * size.x + recyclerView.Spacing.x) / 2, 0, 0);
+                        }
                     }
                 }
             }
@@ -948,11 +973,12 @@ namespace UI
 
             public void ClampList()
             {
+                Vector2 size = GetRowSize();
                 if (IsVerticalOrientation())
                 {
                     if (recyclerView.IsReverse)
                     {
-                        if (GridRectTransform.offsetMax.y >= 0 || LIMIT_BOTTOM <= GridRectTransform.rect.height)
+                        if (GridRectTransform.offsetMax.y >= 0 || recyclerView.GetItemCount() * size.y <= SelfRectTransform.rect.height)
                         {
                             GridRectTransform.localPosition = new Vector2(GridRectTransform.localPosition.x, 0);
                             GridRectTransform.offsetMax = new Vector2(GridRectTransform.offsetMax.x, 0);
@@ -967,7 +993,7 @@ namespace UI
                     }
                     else
                     {
-                        if (GridRectTransform.offsetMax.y <= 0 || LIMIT_BOTTOM <= GridRectTransform.rect.height)
+                        if (GridRectTransform.offsetMax.y <= 0 || recyclerView.GetItemCount() * size.y <= SelfRectTransform.rect.height)
                         {
                             GridRectTransform.offsetMax = new Vector2(GridRectTransform.offsetMax.x, 0);
                             GridRectTransform.sizeDelta = new Vector2(GridRectTransform.sizeDelta.x, 0);
@@ -982,10 +1008,9 @@ namespace UI
                 }
                 else
                 {
-
                     if (recyclerView.IsReverse)
                     {
-                        if (GridRectTransform.offsetMax.x <= 0 || LIMIT_BOTTOM <= GridRectTransform.rect.width)
+                        if (GridRectTransform.offsetMax.x <= 0 || recyclerView.GetItemCount() * size.x <= SelfRectTransform.rect.width)
                         {
                             GridRectTransform.offsetMax = new Vector2(0, GridRectTransform.offsetMax.y);
                             GridRectTransform.sizeDelta = new Vector2(0, GridRectTransform.sizeDelta.y);
@@ -998,7 +1023,7 @@ namespace UI
                     }
                     else
                     {
-                        if (GridRectTransform.offsetMax.x >= 0 || LIMIT_BOTTOM <= GridRectTransform.rect.width)
+                        if (GridRectTransform.offsetMax.x >= 0 || recyclerView.GetItemCount() * size.x <= SelfRectTransform.rect.width)
                         {
                             GridRectTransform.localPosition = new Vector2(0, GridRectTransform.localPosition.y);
                             GridRectTransform.offsetMax = new Vector2(0, GridRectTransform.offsetMax.y);
