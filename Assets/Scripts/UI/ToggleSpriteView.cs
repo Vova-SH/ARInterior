@@ -16,11 +16,15 @@ public class ToggleSpriteView : UIBehaviour
     [SerializeField]
     private Sprite m_OffSprite;
 
+
+#if UNITY_EDITOR
     protected override void Reset()
     {
         m_Image = GetComponent<Image>();
         m_Toggle = GetComponentInParent<Toggle>();
     }
+
+#endif
 
     protected override void Awake()
     {
